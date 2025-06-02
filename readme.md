@@ -1,4 +1,5 @@
 # FOLDER SCANNER.
+DOWNLOAD FROM RELEASE
 
 How to use?:
 1. Un-zip the folderscanner.rar
