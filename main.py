@@ -4,6 +4,27 @@ import os
 from pathlib import Path
 
 # CMD Ui
+def disclaimer():
+    os.system('cls')
+    print('''
+     ____  _          _       _                     
+    |  _ \(_)___  ___| | __ _(_)_ __ ___   ___ _ __ 
+    | | | | / __|/ __| |/ _` | | '_ ` _ \ / _ \ '__|
+    | |_| | \__ \ (__| | (_| | | | | | | |  __/ |   
+    |____/|_|___/\___|_|\__,_|_|_| |_| |_|\___|_|
+
+    
+    I recomend you leave the main.py and folderscanner.bat in a folder before running it.
+    The script will create a file called 'dump.txt' in that direcotry and it will contain all the files you wanted to find. 
+    THIS CODE CAN STILL BE BUGGY. REPORT ANYTHING IN THE GITHUB OR EDIT IT YOURSELF
+    
+    ''')
+    ok = input("Press 1 to continue: ")
+
+    if ok == '1':
+        main()
+
+
 def main():
     os.system('cls')
     print('''
@@ -59,6 +80,7 @@ def main2():
 
 
 def filetypescan():
+    os.system('cls')
     folder_path = Path(directory)
     output_file = Path('dump.txt')
 
@@ -75,6 +97,7 @@ def filetypescan():
                 f.write(str(entry.resolve()) + '\n')
     
 def filenamescan():
+    os.system('cls')
     folder_path = Path(directory)
     output_file = Path('dump.txt')
 
@@ -93,10 +116,9 @@ def filenamescan():
     print(f"Dump created with {len(matches)} file(s) found.")
 
 #Initial
-main()
+disclaimer()
 
 # POSSIBLE TO DO
 
 # Scan all file types and ask which file extension you want?
-# Search for specific file
 # Recreate the directory of the specific file location in a different folder?
