@@ -2,7 +2,7 @@
 
 import os
 from pathlib import Path
-
+import shutil
 # CMD Ui
 def disclaimer():
     os.system('cls')
@@ -76,9 +76,6 @@ def main2():
             filename = input("What is the file name(s)?: ")
         filenamescan()
     
-
-
-
 def filetypescan():
     os.system('cls')
     folder_path = Path(directory)
@@ -95,6 +92,23 @@ def filetypescan():
             if entry.is_file():
                 print(f"Writing: {entry.resolve()}")
                 f.write(str(entry.resolve()) + '\n')
+    
+    print(f"Dump created with {len(matches)} file(s) found.")
+
+    choice = input("Copy files to a new folder for easier access? (Y/N): ").lower()
+
+    if choice == "y":
+        dest_folder = Path(input("Enter destination folder to copy the files to: ").strip())
+        
+    if not dest_folder.exists():
+        create = input(f"Folder '{dest_folder}' does not exist. Create it? (Y/N): ").strip().lower()
+        if create == 'y':
+            dest_folder.mkdir(parents=True)
+        else:
+            print("Aborting copy.")
+            return
+
+    extract(matches, dest_folder)   
     
 def filenamescan():
     os.system('cls')
@@ -114,6 +128,40 @@ def filenamescan():
                 f.write(str(entry.resolve()) + '\n')
     
     print(f"Dump created with {len(matches)} file(s) found.")
+
+    choice = input("Copy files to a new folder for easier access? (Y/N): ").lower()
+
+    if choice == "y":
+        dest_folder = Path(input("Enter destination folder to copy the files to: ").strip())
+        
+    if not dest_folder.exists():
+        create = input(f"Folder '{dest_folder}' does not exist. Create it? (Y/N): ").strip().lower()
+        if create == 'y':
+            dest_folder.mkdir(parents=True)
+        else:
+            print("Aborting copy.")
+            return
+
+    extract(matches, dest_folder)
+
+def extract(matches, dest_root):
+    os.system('cls')
+    print("Saving files.")
+
+    dest_root = Path(dest_root)
+    if not dest_root.exists():
+        dest_root.mkdir(parents=True)
+
+    for file_path in matches:
+        if file_path.is_file():
+            safe_name = str(file_path.relative_to(directory)).replace(os.sep, '_').replace(':', '').replace(' ', '_')
+            folder_name = dest_root / safe_name.rsplit('.', 1)[0]
+            folder_name.mkdir(parents=True, exist_ok=True)
+
+            destination_path = folder_name / file_path.name
+            shutil.copy2(file_path, destination_path)
+            print(f"Copied: {file_path} -> {destination_path}")
+
 
 #Initial
 disclaimer()
